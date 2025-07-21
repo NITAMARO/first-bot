@@ -1,19 +1,23 @@
 from telegram import Update
-from telegram.ext import Updater, CommandHandler, CallbackContext
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from pytz import timezone
 
-TOKEN = "7192654707:AAGEzQdebS0qjMxALCq44K6N0A2NEOgyVB0"  # Ton token
+TOKEN = "7192654707:AAGEzQdebS0qjMxALCq44K6N0A2NEOgyVB0"
 
-def start(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text("🎉 BIENVENUE DANS TON PREMIER BOT TELEGRAM 🎉")
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("🎉 Bienvenue dans ton bot Telegram !")
 
 def main():
-    updater = Updater(TOKEN)
-    dispatcher = updater.dispatcher
+    application = ApplicationBuilder().token(TOKEN).build()
 
-    dispatcher.add_handler(CommandHandler("start", start))
+    # Configuration du scheduler (SANS créer un JobQueue manuellement)
+    scheduler = AsyncIOScheduler(timezone=timezone("Africa/Ouagadougou"))
+    application.job_queue.scheduler = scheduler
 
-    updater.start_polling()
-    updater.idle()
+    application.add_handler(CommandHandler("start", start))
+
+    application.run_polling()
 
 if __name__ == "__main__":
     main()
