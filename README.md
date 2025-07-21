@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # first-bot
 
 Un bot Telegram simple qui répond à la commande /start avec un message de bienvenue.
@@ -23,3 +24,6 @@ Cheick Omar Tani
 ## Licence
 
 MIT
+=======
+# first-bot
+>>>>>>> d9e88a013921f1ad72eb8928fc04b72974f81937
